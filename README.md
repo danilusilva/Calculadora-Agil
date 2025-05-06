@@ -24,14 +24,14 @@ Abra o arquivo index.html no seu navegador.
 
 Insira os números e escolha a operação desejada.
 
-💡 Melhorias Futuras
+##💡 Melhorias Futuras
 Suporte para operações avançadas (exponenciação, raízes).
 
 Histórico de cálculos.
 
 Tema personalizável.
 
-📄 Licença
+##📄 Licença
 Este projeto está licenciado sob a MIT License – fique à vontade para usá-lo e melhorá-lo!
 
 🔗 Criado por Danilu Silva – Contribuições são bem-vindas! 🚀
