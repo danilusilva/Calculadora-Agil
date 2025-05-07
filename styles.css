@@ -50,6 +50,12 @@ body {
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(52, 152, 219, 0.5);
 }
 
+#resultado::placeholder {
+    color: #95a5a6;
+    font-size: 20px;
+    text-align: center;
+}
+
 .botoes {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -115,5 +121,9 @@ button:active {
     #resultado {
         height: 60px;
         font-size: 24px;
+    }
+    
+    #resultado::placeholder {
+        font-size: 16px;
     }
 } 
