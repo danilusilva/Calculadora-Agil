@@ -1,7 +1,27 @@
 const resultado = document.getElementById('resultado');
 
+// Previne múltiplos pontos decimais e operadores consecutivos
+function validarEntrada(valor) {
+    const ultimoChar = resultado.value.slice(-1);
+    const operadores = ['+', '-', '*', '/', '^', '%'];
+    
+    // Previne múltiplos pontos decimais
+    if (valor === '.' && resultado.value.includes('.')) {
+        return false;
+    }
+    
+    // Previne operadores consecutivos
+    if (operadores.includes(valor) && operadores.includes(ultimoChar)) {
+        return false;
+    }
+    
+    return true;
+}
+
 function adicionarAoVisor(valor) {
-    resultado.value += valor;
+    if (validarEntrada(valor)) {
+        resultado.value += valor;
+    }
 }
 
 function limparVisor() {
@@ -12,10 +32,33 @@ function apagarUltimo() {
     resultado.value = resultado.value.slice(0, -1);
 }
 
+function calcularRaiz() {
+    try {
+        const numero = parseFloat(resultado.value);
+        if (isNaN(numero)) {
+            throw new Error('Digite um número válido');
+        }
+        if (numero < 0) {
+            throw new Error('Não é possível calcular raiz de número negativo');
+        }
+        resultado.value = Math.sqrt(numero).toString();
+    } catch (erro) {
+        resultado.value = erro.message;
+        setTimeout(limparVisor, 1500);
+    }
+}
+
 function calcular() {
     try {
+        if (!resultado.value) {
+            return;
+        }
+
         // Substitui × por * para multiplicação
         let expressao = resultado.value.replace('×', '*');
+        
+        // Substitui ^ por ** para potenciação
+        expressao = expressao.replace(/\^/g, '**');
         
         // Trata cálculos com porcentagem
         if (expressao.includes('%')) {
@@ -34,7 +77,7 @@ function calcular() {
         resultado.value = Number(resposta.toFixed(8)).toString();
     } catch (erro) {
         resultado.value = 'Erro';
-        setTimeout(limparVisor, 1000);
+        setTimeout(limparVisor, 1500);
     }
 }
 
@@ -42,8 +85,13 @@ function calcular() {
 document.addEventListener('keydown', (evento) => {
     const tecla = evento.key;
     
+    // Previne o comportamento padrão para algumas teclas
+    if (['Enter', 'Escape', 'Backspace'].includes(tecla)) {
+        evento.preventDefault();
+    }
+    
     // Números e operadores
-    if (/[\d+\-*/.%]/.test(tecla)) {
+    if (/[\d+\-*/.%^]/.test(tecla)) {
         adicionarAoVisor(tecla);
     }
     // Tecla Enter para calcular
