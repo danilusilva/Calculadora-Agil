@@ -34,14 +34,42 @@ function apagarUltimo() {
 
 function calcularRaiz() {
     try {
+        // Pega o número do visor
         const numero = parseFloat(resultado.value);
+        
         if (isNaN(numero)) {
             throw new Error('Digite um número válido');
         }
-        if (numero < 0) {
-            throw new Error('Não é possível calcular raiz de número negativo');
+        
+        // Pede o índice da raiz ao usuário
+        const indice = prompt('Digite o índice da raiz (ex: 2 para raiz quadrada, 3 para raiz cúbica):');
+        
+        if (indice === null) {
+            return; // Usuário cancelou
         }
-        resultado.value = Math.sqrt(numero).toString();
+        
+        const indiceNum = parseFloat(indice);
+        
+        if (isNaN(indiceNum)) {
+            throw new Error('Índice inválido');
+        }
+        
+        if (indiceNum === 0) {
+            throw new Error('Índice não pode ser zero');
+        }
+        
+        // Verifica se o número é negativo e o índice é par
+        if (numero < 0 && indiceNum % 2 === 0) {
+            throw new Error('Não é possível calcular raiz par de número negativo');
+        }
+        
+        // Calcula a raiz n-ésima
+        const resposta = Math.pow(Math.abs(numero), 1/indiceNum);
+        
+        // Ajusta o sinal se necessário
+        const resultadoFinal = numero < 0 && indiceNum % 2 !== 0 ? -resposta : resposta;
+        
+        resultado.value = Number(resultadoFinal.toFixed(8)).toString();
     } catch (erro) {
         resultado.value = erro.message;
         setTimeout(limparVisor, 1500);
